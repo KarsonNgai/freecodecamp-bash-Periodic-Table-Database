@@ -1,0 +1,13 @@
+#!/bin/bash
+#mini program for remove the 0 after the decimal 
+ 
+PSQL="psql -X --username=freecodecamp --dbname=periodic_table --tuples-only -c"
+ 
+echo "$($PSQL "SELECT * FROM properties")" | while read number bar mass bar melting bar boiling bar type_id
+do
+  newchange=$(sed -r 's/0*$//' <<< "$mass")
+  cancel_dot=$(sed -r 's/\.$//'<<<"$newchange")
+  update_mass=$($PSQL "UPDATE properties SET atomic_mass=$cancel_dot WHERE atomic_mass=$mass")
+done
+ 
+
